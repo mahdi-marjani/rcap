@@ -483,13 +483,23 @@ def solve_recaptcha(driver):
                 (By.ID, "recaptcha-verify-button")))
             verify.click()
 
-            try:
-                # //span[@id="recaptcha-anchor"]
-                WebDriverWait(driver, 2).until(
-                    EC.presence_of_element_located((By.XPATH, '//button[@id="recaptcha-verify-button" and not(contains(@class, "rc-button-default-disabled"))]')))
-            except:
-                print("solved")
 
+            for i in range(20):
+                try:
+                    go_to_recaptcha_iframe2(driver)
+                    WebDriverWait(driver, 0.1).until(
+                        EC.presence_of_element_located((By.XPATH, '//button[@id="recaptcha-verify-button" and not(contains(@class, "rc-button-default-disabled"))]')))
+                    solved = False
+                    break
+                except:
+                    go_to_recaptcha_iframe1(driver)
+                    if WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//span[@id="recaptcha-anchor"]'))).get_attribute("aria-checked") == 'true':
+                        solved = True
+                        break
+                    else:
+                        solved = False
+            if solved:
+                print("solved")
                 list_images_directory = listdir(images_directory)
                 for image in list_images_directory:
                     if re.search(timestamp, image) != None:
@@ -497,6 +507,8 @@ def solve_recaptcha(driver):
 
                 driver.switch_to.default_content()
                 break
+            else:
+                go_to_recaptcha_iframe2(driver)
 
         except Exception as e:
             print(e)
