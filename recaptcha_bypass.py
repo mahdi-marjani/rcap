@@ -484,7 +484,7 @@ def solve_recaptcha(driver):
             verify.click()
 
 
-            for i in range(20):
+            for i in range(200):
                 try:
                     go_to_recaptcha_iframe2(driver)
                     WebDriverWait(driver, 0.1).until(
