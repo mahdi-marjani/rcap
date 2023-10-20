@@ -68,7 +68,7 @@ def get_target_num(driver):
 
     return 1000
 
-def get_answers(target_num,timestamp):
+def get_answers(target_num, timestamp):
     image = Image.open(images_directory.joinpath(f"0-{timestamp}.png"))
     image = np.asarray(image)
 
@@ -84,51 +84,23 @@ def get_answers(target_num,timestamp):
     else:
         result = yolo_model.predict(image)
 
-    target_index = []
-    count = 0
-    for num in result[0].boxes.cls:
-        if num == target_num:
-            target_index.append(count)
-        count += 1
+    target_index = [i for i, num in enumerate(result[0].boxes.cls) if num == target_num]
 
-    answers = []
+    answers = set()
+
     boxes = result[0].boxes.data
-    count = 0
     for i in target_index:
         target_box = boxes[i]
-        p1, p2 = (int(target_box[0]), int(target_box[1])
-                  ), (int(target_box[2]), int(target_box[3]))
-        x1, y1 = p1
-        x2, y2 = p2
+        xc, yc = (target_box[0] + target_box[2]) / 2, (target_box[1] + target_box[3]) / 2
 
-        xc = (x1+x2)/2
-        yc = (y1+y2)/2
+        x_pos = int(xc / (image.shape[1] / 3))
+        y_pos = int(yc / (image.shape[0] / 3))
+        
+        point_num = y_pos * 3 + x_pos + 1
 
-        if xc < 100 and yc < 100:
-            answers.append(1)
-        if 100 < xc < 200 and yc < 100:
-            answers.append(2)
-        if 200 < xc < 300 and yc < 100:
-            answers.append(3)
+        answers.add(point_num)
 
-        if xc < 100 and 100 < yc < 200:
-            answers.append(4)
-        if 100 < xc < 200 and 100 < yc < 200:
-            answers.append(5)
-        if 200 < xc < 300 and 100 < yc < 200:
-            answers.append(6)
-
-        if xc < 100 and 200 < yc < 300:
-            answers.append(7)
-        if 100 < xc < 200 and 200 < yc < 300:
-            answers.append(8)
-        if 200 < xc < 300 and 200 < yc < 300:
-            answers.append(9)
-
-        count += 1
-
-    return list(set(answers))
-
+    return list(answers)
 
 def get_all_captcha_img_urls(driver):
     images = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located(
