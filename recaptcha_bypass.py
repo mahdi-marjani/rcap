@@ -68,6 +68,7 @@ def get_target_num(driver):
 
     return 1000
 
+
 def get_answers(target_num, timestamp):
     image = Image.open(images_directory.joinpath(f"0-{timestamp}.png"))
     image = np.asarray(image)
@@ -84,23 +85,26 @@ def get_answers(target_num, timestamp):
     else:
         result = yolo_model.predict(image)
 
-    target_index = [i for i, num in enumerate(result[0].boxes.cls) if num == target_num]
+    target_index = [i for i, num in enumerate(
+        result[0].boxes.cls) if num == target_num]
 
     answers = set()
 
     boxes = result[0].boxes.data
     for i in target_index:
         target_box = boxes[i]
-        xc, yc = (target_box[0] + target_box[2]) / 2, (target_box[1] + target_box[3]) / 2
+        xc, yc = (target_box[0] + target_box[2]) / \
+            2, (target_box[1] + target_box[3]) / 2
 
         x_pos = int(xc / (image.shape[1] / 3))
         y_pos = int(yc / (image.shape[0] / 3))
-        
+
         point_num = y_pos * 3 + x_pos + 1
 
         answers.add(point_num)
 
     return list(answers)
+
 
 def get_all_captcha_img_urls(driver):
     images = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located(
@@ -113,7 +117,7 @@ def get_all_captcha_img_urls(driver):
     return img_urls
 
 
-def download_img(name, url,timestamp):
+def download_img(name, url, timestamp):
     response = requests.get(url, stream=True)
     with open(images_directory.joinpath(f'{name}-{timestamp}.png'), 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
@@ -173,6 +177,7 @@ def get_occupied_cells(vertices):
 
     return sorted(list(occupied_cells))
 
+
 def detect_car_locations(masked_image, num_rows=4, num_columns=4, threshold=100):
     height, width, _ = masked_image.shape
     row_step = height // num_rows
@@ -192,6 +197,7 @@ def detect_car_locations(masked_image, num_rows=4, num_columns=4, threshold=100)
 
     return car_locations
 
+
 def convert_to_position_indices(car_locations, num_rows=4, num_columns=4):
     position_indices = []
     for i, j in car_locations:
@@ -199,10 +205,11 @@ def convert_to_position_indices(car_locations, num_rows=4, num_columns=4):
         position_indices.append(position)
     return position_indices
 
-def get_answers_4(target_num,timestamp):
+
+def get_answers_4(target_num, timestamp):
     image = Image.open(images_directory.joinpath(f"0-{timestamp}.png"))
     image = np.asarray(image)
-    
+
     if target_num < 1000:
         result_seg = yolo_seg_model.predict(image)
 
@@ -216,22 +223,25 @@ def get_answers_4(target_num,timestamp):
         answers = []
 
         for i in target_index:
-            if(result_seg[0].masks is not None):
-                mask_raw = result_seg[0].masks[i].cpu().data.numpy().transpose(1, 2, 0)
-                mask_3channel = cv2.merge((mask_raw,mask_raw,mask_raw))
+            if (result_seg[0].masks is not None):
+                mask_raw = result_seg[0].masks[i].cpu(
+                ).data.numpy().transpose(1, 2, 0)
+                mask_3channel = cv2.merge((mask_raw, mask_raw, mask_raw))
                 h2, w2, c2 = result_seg[0].orig_img.shape
                 mask = cv2.resize(mask_3channel, (w2, h2))
                 hsv = cv2.cvtColor(mask, cv2.COLOR_BGR2HSV)
-                lower_black = np.array([0,0,0])
-                upper_black = np.array([0,0,1])
+                lower_black = np.array([0, 0, 0])
+                upper_black = np.array([0, 0, 1])
                 mask = cv2.inRange(mask, lower_black, upper_black)
                 mask = cv2.bitwise_not(mask)
-                masked = cv2.bitwise_and(result_seg[0].orig_img, result_seg[0].orig_img, mask=mask)
-                car_locations = detect_car_locations(masked, num_rows=4, num_columns=4, threshold=100)
+                masked = cv2.bitwise_and(
+                    result_seg[0].orig_img, result_seg[0].orig_img, mask=mask)
+                car_locations = detect_car_locations(
+                    masked, num_rows=4, num_columns=4, threshold=100)
                 position_indices = convert_to_position_indices(car_locations)
                 for indice in position_indices:
                     answers.append(indice)
-        
+
         answers = sorted(list(answers))
         return list(set(answers))
     else:
@@ -257,7 +267,7 @@ def get_answers_4(target_num,timestamp):
         for i in target_index:
             target_box = boxes[i]
             p1, p2 = (int(target_box[0]), int(target_box[1])
-                    ), (int(target_box[2]), int(target_box[3]))
+                      ), (int(target_box[2]), int(target_box[3]))
             x1, y1 = p1
             x2, y2 = p2
 
@@ -266,7 +276,7 @@ def get_answers_4(target_num,timestamp):
         for i in target_index:
             target_box = boxes[i]
             p1, p2 = (int(target_box[0]), int(target_box[1])
-                    ), (int(target_box[2]), int(target_box[3]))
+                      ), (int(target_box[2]), int(target_box[3]))
             x1, y1 = p1
             x4, y4 = p2
             x2 = x4
@@ -278,7 +288,8 @@ def get_answers_4(target_num,timestamp):
             four_cells = []
             for i in target_index:
                 target_box = boxes[i]
-                p1, p2 = (int(target_box[0]), int(target_box[1])), (int(target_box[2]), int(target_box[3]))
+                p1, p2 = (int(target_box[0]), int(target_box[1])), (int(
+                    target_box[2]), int(target_box[3]))
                 x1, y1 = p1
                 x4, y4 = p2
 
@@ -303,6 +314,7 @@ def get_answers_4(target_num,timestamp):
                     answers.append(ans)
         answers = sorted(list(answers))
         return list(set(answers))
+
 
 def solve_recaptcha(driver):
     go_to_recaptcha_iframe1(driver)
@@ -332,8 +344,8 @@ def solve_recaptcha(driver):
                 elif "squares" in title_wrapper.text:
                     print("Square captcha found....")
                     img_urls = get_all_captcha_img_urls(driver)
-                    download_img(0, img_urls[0],timestamp)
-                    answers = get_answers_4(target_num,timestamp)
+                    download_img(0, img_urls[0], timestamp)
+                    answers = get_answers_4(target_num, timestamp)
                     if len(answers) >= 1 and len(answers) < 16:
                         captcha = "squares"
                         break
@@ -343,8 +355,8 @@ def solve_recaptcha(driver):
                     print("found a 3x3 dynamic captcha")
                     img_urls = get_all_captcha_img_urls(driver)
                     if len(set(list(img_urls))) == 1:
-                        download_img(0, img_urls[0],timestamp)
-                        answers = get_answers(target_num,timestamp)
+                        download_img(0, img_urls[0], timestamp)
+                        answers = get_answers(target_num, timestamp)
                         if len(answers) > 2:
                             captcha = "dynamic"
                             break
@@ -355,8 +367,8 @@ def solve_recaptcha(driver):
                 else:
                     print("found a 3x3 one time selection captcha")
                     img_urls = get_all_captcha_img_urls(driver)
-                    download_img(0, img_urls[0],timestamp)
-                    answers = get_answers(target_num,timestamp)
+                    download_img(0, img_urls[0], timestamp)
+                    answers = get_answers(target_num, timestamp)
                     if len(answers) > 2:
                         captcha = "selection"
                         break
@@ -383,15 +395,17 @@ def solve_recaptcha(driver):
                     new_img_index_urls
 
                     for index in new_img_index_urls:
-                        download_img(index+1, img_urls[index],timestamp)
+                        download_img(index+1, img_urls[index], timestamp)
                     while True:
                         try:
                             for answer in answers:
-                                main_img = Image.open(images_directory.joinpath(f"0-{timestamp}.png"))
-                                new_img = Image.open(images_directory.joinpath(f"{answer}-{timestamp}.png"))
+                                main_img = Image.open(
+                                    images_directory.joinpath(f"0-{timestamp}.png"))
+                                new_img = Image.open(images_directory.joinpath(
+                                    f"{answer}-{timestamp}.png"))
                                 location = answer
                                 paste_new_img_on_main_img(
-                                    main_img, new_img, location,timestamp)
+                                    main_img, new_img, location, timestamp)
                             break
                         except:
                             while True:
@@ -404,9 +418,10 @@ def solve_recaptcha(driver):
                                 new_img_index_urls.append(answer-1)
 
                             for index in new_img_index_urls:
-                                download_img(index+1, img_urls[index],timestamp)
+                                download_img(
+                                    index+1, img_urls[index], timestamp)
 
-                    answers = get_answers(target_num,timestamp)
+                    answers = get_answers(target_num, timestamp)
 
                     if len(answers) >= 1:
                         for answer in answers:
@@ -422,7 +437,6 @@ def solve_recaptcha(driver):
             verify = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(
                 (By.ID, "recaptcha-verify-button")))
             verify.click()
-
 
             for i in range(200):
                 try:
