@@ -1,17 +1,17 @@
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from os import listdir, remove
-from datetime import datetime
-from ultralytics import YOLO
-from pathlib import Path
-from PIL import Image
-import numpy as np
-import requests
-import random
-import shutil
-import cv2
 import re
+import cv2
+import shutil
+import random
+import requests
+import numpy as np
+from PIL import Image
+from pathlib import Path
+from ultralytics import YOLO
+from datetime import datetime
+from os import listdir, remove
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 current_directory = Path().absolute()
 models_directory  = current_directory.joinpath("models")
@@ -21,8 +21,8 @@ images_directory  = current_directory.joinpath("images")
 yolo_models = {
     "yolov8x"     : YOLO(models_directory.joinpath("yolov8x.pt")),
     "crosswalk"   : YOLO(models_directory.joinpath("crosswalk.pt")),
-    "yolov8x-oiv7": YOLO(models_directory.joinpath("yolov8x-oiv7.pt")),
-    "yolov8x-seg" : YOLO(models_directory.joinpath("yolov8x-seg.pt"))
+    "yolov8x-seg" : YOLO(models_directory.joinpath("yolov8x-seg.pt")),
+    "yolov8x-oiv7": YOLO(models_directory.joinpath("yolov8x-oiv7.pt"))
 }
 
 # Try loading an image with a model
@@ -293,7 +293,7 @@ def get_answers_4(target_num, timestamp):
                     cell_size = image.shape[1] / 4
                     row = int(y / cell_size)
                     column = int(x / cell_size)
-                    cell_number = row * 4 + column + 1
+                    cell_number = (row - 1) * 4 + column
                     four_cells.append(cell_number)
 
                 answer = get_occupied_cells(four_cells)
