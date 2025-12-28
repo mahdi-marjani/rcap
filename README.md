@@ -1,9 +1,41 @@
-# recaptcha-bypass
+# reCAPTCHA v2 Image Solver
+
+Simple Python tool to automatically solve Google's reCAPTCHA v2 "select all squares" challenges using Selenium + YOLO.
+
+**For educational and testing purposes only.**
 
 https://github.com/hooshmang/recaptcha-bypass/assets/129745867/024b82eb-1dc7-4f3d-a5d4-598dede2f5e4
 
-recaptcha-bypass is a recaptcha solver built using python and selenium. It uses deep learning to predict the captcha in action and click it. recaptcha-bypass uses a pretrained model, Yolov8
+## How it works
+- Detects objects (cars, buses, crosswalks, etc.) in captcha images
+- Clicks the correct tiles automatically
+- Handles 3x3, 4x4, static and dynamic challenges
+
+## Installation
+
+```bash
+git clone https://github.com/mahdi-marjani/mahdi-marjani-recaptcha-bypass.git
+cd mahdi-marjani-recaptcha-bypass
+pip install -r requirements.txt
+```
 
 ## Usage
 
-See example.py codes
+```python
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from recaptcha_bypass import solve_recaptcha
+
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver.get("https://www.google.com/recaptcha/api2/demo")
+
+solve_recaptcha(driver)  # That's it
+
+input("Press Enter to close...")
+driver.quit()
+```
+
+Works with Firefox too — see `example.py`.
+
+Enjoy! 🚀
