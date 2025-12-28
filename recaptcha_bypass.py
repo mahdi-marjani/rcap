@@ -20,9 +20,9 @@ images_directory = current_directory.joinpath("images")
 
 # Define YOLO models
 yolo_models = {
-    "yolov8x": YOLO(models_directory.joinpath("yolov8x.pt")),
-    "crosswalk": YOLO(models_directory.joinpath("crosswalk.pt")),
-    "yolov8x-seg": YOLO(models_directory.joinpath("yolov8x-seg.pt")),
+    "yolo11x"     : YOLO(models_directory.joinpath("yolo11x.pt")),
+    "crosswalk"   : YOLO(models_directory.joinpath("crosswalk.pt")),
+    "yolo11x-seg" : YOLO(models_directory.joinpath("yolo11x-seg.pt")),
     "yolov8x-oiv7": YOLO(models_directory.joinpath("yolov8x-oiv7.pt")),
 }
 
@@ -30,7 +30,7 @@ yolo_models = {
 try:
     image = Image.open(images_directory.joinpath("0.png"))
     image = np.asarray(image)
-    yolo_models["yolov8x"].predict(image)
+    yolo_models["yolo11x"].predict(image)
 except:
     pass
 
@@ -79,7 +79,7 @@ def get_answers(target_num, timestamp):
         result = yolo_models["yolov8x-oiv7"].predict(image)
         target_num = 522
     else:
-        result = yolo_models["yolov8x"].predict(image)
+        result = yolo_models["yolo11x"].predict(image)
 
     target_index = [i for i, num in enumerate(result[0].boxes.cls) if num == target_num]
 
@@ -219,7 +219,7 @@ def get_answers_4(target_num, timestamp):
     image = np.asarray(image)
 
     if target_num < 1000:
-        result_seg = yolo_models["yolov8x-seg"].predict(image)
+        result_seg = yolo_models["yolo11x-seg"].predict(image)
 
         target_index = []
         count = 0
