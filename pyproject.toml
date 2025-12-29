@@ -18,6 +18,7 @@ dependencies = [
     "selenium==4.39.0",
     "ultralytics==8.3.241",
     "webdriver-manager==4.0.2",
+    "tqdm==4.67.1",
 ]
 
 [tool.setuptools]
