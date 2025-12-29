@@ -46,6 +46,6 @@ input("Press Enter to close...")
 driver.quit()
 ```
 
-Works with Firefox too — see `src/main.py` for examples.
+Works with Firefox too — see `src/recaptcha_bypass/main.py` for examples.
 
 Enjoy! 🚀
