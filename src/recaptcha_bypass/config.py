@@ -1,10 +1,17 @@
 import re
 from pathlib import Path
 from ultralytics import YOLO
+from .model_downloader import download_model_if_missing
 
 CURRENT_DIRECTORY = Path().absolute()
+
 MODELS_DIRECTORY = CURRENT_DIRECTORY / "models"
+MODELS_DIRECTORY.mkdir(exist_ok=True)
+
 IMAGES_DIRECTORY = CURRENT_DIRECTORY / "images"
+IMAGES_DIRECTORY.mkdir(exist_ok=True)
+
+download_model_if_missing("crosswalk.pt", MODELS_DIRECTORY)
 
 YOLO_MODELS = {
     "yolo11x": YOLO(MODELS_DIRECTORY / "yolo11x.pt"),
@@ -32,13 +39,3 @@ def get_target_num(target_text):
         if re.search(key, target_text) is not None:
             return value
     return 1000
-
-# Try loading an image with a model
-try:
-    from PIL import Image
-    import numpy as np
-    image = Image.open(IMAGES_DIRECTORY / "0.png")
-    image = np.asarray(image)
-    YOLO_MODELS["yolo11x"].predict(image)
-except:
-    pass
