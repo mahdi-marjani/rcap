@@ -1,9 +1,7 @@
 import cv2
-import random
 import numpy as np
 from math import ceil
 from PIL import Image
-from datetime import datetime
 from .config import YOLO_MODELS, IMAGES_DIRECTORY
 from .utils import detect_car_locations, convert_to_position_indices, get_occupied_cells
 

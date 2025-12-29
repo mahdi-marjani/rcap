@@ -25,17 +25,17 @@ pip install capx
 
 (For the latest dev version straight from GitHub:)
 ```bash
-pip install git+https://github.com/mahdi-marjani/recaptcha-bypass.git
+pip install git+https://github.com/mahdi-marjani/capx.git
 ```
 
 ### 3. Quick example
 ```python
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from recaptcha_bypass import RecaptchaSolver
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
+from capx import RecaptchaSolver
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()))
 driver.get("https://www.google.com/recaptcha/api2/demo")
 
 solver = RecaptchaSolver(driver)
@@ -44,7 +44,5 @@ solver.solve()  # Done!
 input("Press Enter to quit...")
 driver.quit()
 ```
-
-Also works with Firefox – check `src/recaptcha_bypass/main.py` for examples.
 
 Have fun! 🚀

@@ -3,7 +3,7 @@ from tqdm import tqdm
 from pathlib import Path
 
 MODEL_URLS = {
-    "crosswalk.pt": "https://github.com/mahdi-marjani/recaptcha-bypass/releases/download/v0.1.0/crosswalk.pt",
+    "crosswalk.pt": "https://github.com/mahdi-marjani/capx/releases/download/v0.1.0/crosswalk.pt",
 }
 
 

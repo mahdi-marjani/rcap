@@ -271,7 +271,6 @@ class RecaptchaSolver:
 
 
     def _cleanup_images(self):
-        # کد remove تصاویر با timestamp
         list_images = listdir(IMAGES_DIRECTORY)
         for image in list_images:
             if re.search(self.timestamp, image):
