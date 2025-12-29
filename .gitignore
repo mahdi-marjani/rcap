@@ -1,4 +1,4 @@
-yolo*.pt
+*.pt
 __pycache__
 *.log
 venv
