@@ -2,7 +2,7 @@
 
 Simple Python tool to automatically solve Google's reCAPTCHA v2 "select all squares" challenges using Selenium + YOLO.
 
-https://github.com/hooshmang/recaptcha-bypass/assets/129745867/024b82eb-1dc7-4f3d-a5d4-598dede2f5e4
+https://github.com/user-attachments/assets/22308be7-3a90-4757-8799-b47008b32bf0
 
 ## How it works
 - Detects objects (cars, buses, crosswalks, etc.) in captcha images
