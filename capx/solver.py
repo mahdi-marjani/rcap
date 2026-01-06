@@ -1,4 +1,4 @@
-from capx_client import BaseRecaptchaSolver
+from capx_client.solver import BaseRecaptchaSolver
 
 
 class RecaptchaSolver(BaseRecaptchaSolver):
