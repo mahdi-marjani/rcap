@@ -1,5 +1,4 @@
-numpy==2.2.6
-pillow==12.1.0
 selenium==4.39.0
 webdriver_manager==4.0.2
 capx-core==0.1.1
+capx-client==0.1.1
