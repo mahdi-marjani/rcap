@@ -1,4 +1,4 @@
 selenium==4.39.0
 webdriver_manager==4.0.2
-capx-core==0.1.1
-capx-client==0.1.1
+capx-core==0.1.2
+capx-client==0.1.2
