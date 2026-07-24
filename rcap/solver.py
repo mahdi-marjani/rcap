@@ -1,6 +1,6 @@
-from capx_client.solver import BaseRecaptchaSolver
-from capx_core.detector import detect_cells
-from capx_core.models import AVAILABLE_MODELS
+from rcap_client.solver import BaseRecaptchaSolver
+from rcap_core.detector import detect_cells
+from rcap_core.models import AVAILABLE_MODELS
 
 
 class RecaptchaSolver(BaseRecaptchaSolver):

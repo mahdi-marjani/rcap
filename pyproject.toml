@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "capx"
+name = "rcap"
 version = "1.0.1"
 description = "reCAPTCHA v2 Image Solver using YOLO and Selenium"
 authors = [{name = "Mahdi Marjani", email = "mahdi.marjani.dev@gmail.com"}]
@@ -13,15 +13,15 @@ requires-python = ">=3.8"
 dependencies = [
     "selenium>=4.39.0",
     "webdriver_manager>=4.0.2",
-    "capx-core>=1.0.1",
-    "capx-client>=1.0.1",
+    "rcap-core>=1.0.1",
+    "rcap-client>=1.0.1",
 ]
 
 [tool.setuptools]
-packages = ["capx"]
+packages = ["rcap"]
 
 [project.urls]
-Homepage = "https://github.com/mahdi-marjani/capx"
-Documentation = "https://github.com/mahdi-marjani/capx"
-Repository = "https://github.com/mahdi-marjani/capx.git"
-Issues = "https://github.com/mahdi-marjani/capx/issues"
+Homepage = "https://github.com/mahdi-marjani/rcap"
+Documentation = "https://github.com/mahdi-marjani/rcap"
+Repository = "https://github.com/mahdi-marjani/rcap.git"
+Issues = "https://github.com/mahdi-marjani/rcap/issues"

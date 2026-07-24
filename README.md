@@ -20,7 +20,7 @@ venv\Scripts\activate
 
 ### 2. Install
 ```bash
-pip install capx
+pip install rcap
 ```
 
 ### 3. Quick example
@@ -28,7 +28,7 @@ pip install capx
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
-from capx.solver import RecaptchaSolver
+from rcap.solver import RecaptchaSolver
 
 driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()))
 driver.get("https://www.google.com/recaptcha/api2/demo")
