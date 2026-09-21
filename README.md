@@ -55,3 +55,44 @@ print("reCAPTCHA solved!")
 input("Press Enter to quit...")
 page.close()
 ```
+
+## Recommendation: Use Camoufox for stealthier automation
+
+For better stealth and human-like interactions, I recommend using **Camoufox** — an anti-detect browser that simulates human cursor movement and other behaviors to help avoid bot detection.
+
+https://github.com/user-attachments/assets/85dfcbbd-316d-4841-b20b-df5d0efea863
+
+### Install
+
+```bash
+pip install -U camoufox
+# optional but recommended if using proxies:
+# pip install -U "camoufox[geoip]"
+```
+
+Download the Camoufox browser:
+
+```bash
+python -m camoufox fetch
+```
+
+### Usage with `rcap`
+
+```python
+from rcap.solver import PlaywrightRecaptchaSolver
+from camoufox.sync_api import Camoufox
+
+camoufox = Camoufox(headless=False, humanize=True)
+browser = camoufox.start()
+page = browser.new_page()
+page.goto("https://www.google.com/recaptcha/api2/demo")
+
+solver = PlaywrightRecaptchaSolver(page)
+solver.solve()  # Done!
+
+print("reCAPTCHA solved!")
+input("Press Enter to quit...")
+page.close()
+```
+
+`humanize=True` enables Camoufox's human-like cursor movement, which can significantly reduce the chance of triggering reCAPTCHA in the first place.
