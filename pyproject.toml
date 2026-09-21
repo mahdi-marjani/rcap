@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rcap"
-version = "3.0.0"
+version = "3.0.2"
 description = "reCAPTCHA v2 Image Solver using YOLO with Selenium and Playwright"
 authors = [{name = "Mahdi Marjani", email = "mahdi.marjani.dev@gmail.com"}]
 license = "MIT"
